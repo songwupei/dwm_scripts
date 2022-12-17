@@ -33,7 +33,7 @@ pacmd list-sinks | awk '
     }
     END {
         if (f) {
-            printf "音量%s", h ? (m ? ICONhm : ICONhn) : (m ? ICONsm : ICONsn)
+            printf "%s", h ? "耳机"(m ? ICONhm : ICONhn) : "音响"(m ? ICONsm : ICONsn)
             if (vb)
                 print vb
             else
