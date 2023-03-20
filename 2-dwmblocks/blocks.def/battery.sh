@@ -4,7 +4,8 @@ ICONbn="" # icon for normal battery
 ICONan="" # icon for normal battery
 ICONbc="" # icon for critical battery
 read -r capacity </sys/class/power_supply/BAT0/capacity
-read -r ac </sys/class/power_supply/ADP0/online
+# read -r ac </sys/class/power_supply/ADP0/online # DELL XPS
+read -r ac </sys/class/power_supply/AC/online # Thinkpad X1
 
 crit=15 # critical power_percent
 if [ "$ac" = 1 ] ; then 

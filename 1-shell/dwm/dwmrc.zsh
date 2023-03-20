@@ -1,4 +1,4 @@
-#!/bin/zsh
+
 # slock
 ## 设置锁屏，并使用slock
 ## slock 快捷键为win(Mod4)+l
@@ -30,3 +30,6 @@ sh -c 'xinput --set-button-map "Logitech Wireless Mouse PID:4091" 3 2 1'
 ## start TLP
 sudo tlp start
 sudo systemctl mask systemd-rfkill.service
+
+## start netowrk-manager-applet
+exec nm-applet &
