@@ -27,3 +27,9 @@ sudo systemctl mask systemd-rfkill.service
 
 ## start netowrk-manager-applet
 exec nm-applet &
+## start basic applications
+exec wps &
+exec firefox-esr &
+exec thunar  &
+ibus-daemon -rxR
+
