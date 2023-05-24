@@ -1,7 +1,8 @@
 #! /bin/bash
-
 thisdir=$(cd $(dirname $0);pwd)
-tempfile=$thisdir/temp
+#eth0address=$(cat /sys/class/net/eth0/address)
+#tempfile=$thisdir/temp${eth0address}
+tempfile=/tmp/dwmstatusbartemp
 touch $tempfile
 
 # 设置某个模块的状态 update cpu mem ...

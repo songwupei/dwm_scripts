@@ -1,8 +1,8 @@
 #! /bin/bash
 # ICONS 部分特殊的标记图标 这里是我自己用的，你用不上的话去掉就行
-
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
-
+#eth0address=$(cat /sys/class/net/eth0/address)
+#tempfile=$(cd $(dirname $0);cd ..;pwd)/temp${eth0address}
+tempfile=/tmp/dwmstatusbartemp
 this=_icons
 color="^c#2D1B46^^b#5555660x66^"
 signal=$(echo "^s$this^" | sed 's/_//')

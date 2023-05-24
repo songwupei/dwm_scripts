@@ -1,7 +1,7 @@
 #! /bin/bash
-
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
-
+#eth0address=$(cat /sys/class/net/eth0/address)
+#tempfile=$(cd $(dirname $0);cd ..;pwd)/temp${eth0address}
+tempfile=/tmp/dwmstatusbartemp
 this=_wifi
 icon_color="^c#000080^^b#3870560x88^"
 text_color="^c#000080^^b#3870560x99^"

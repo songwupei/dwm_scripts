@@ -1,8 +1,8 @@
 #! /bin/bash
 # music 脚本
-
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
-
+#eth0address=$(cat /sys/class/net/eth0/address)
+#tempfile=$(cd $(dirname $0);cd ..;pwd)/temp${eth0address}
+tempfile=/tmp/dwmstatusbartemp
 this=_music
 icon_color="^c#3B102B^^b#6873790x88^"
 text_color="^c#3B102B^^b#6873790x99^"

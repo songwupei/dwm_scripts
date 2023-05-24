@@ -1,8 +1,9 @@
 #! /bin/bash
 # CPU 获取CPU使用率和温度的脚本
 
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
-
+#eth0address=$(cat /sys/class/net/eth0/address)
+#tempfile=$(cd $(dirname $0);cd ..;pwd)/temp${eth0address}
+tempfile=/tmp/dwmstatusbartemp
 this=_cpu
 icon_color="^c#3E206F^^b#6E51760x88^"
 text_color="^c#3E206F^^b#6E51760x99^"

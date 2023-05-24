@@ -14,8 +14,9 @@
 # 静音 -> Mute: no                                                                                 
 # 音量 -> Volume: front-left: 13183 /  20% / -41.79 dB,   front-right: 13183 /  20% / -41.79 dB
 
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
-
+#eth0address=$(cat /sys/class/net/eth0/address)
+#tempfile=$(cd $(dirname $0);cd ..;pwd)/temp${eth0address}
+tempfile=/tmp/dwmstatusbartemp
 this=_vol
 icon_color="^c#442266^^b#7879560x88^"
 text_color="^c#442266^^b#7879560x99^"

@@ -1,8 +1,8 @@
 #! /bin/bash
 # MEM
-
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
-
+#eth0address=$(cat /sys/class/net/eth0/address)
+#tempfile=$(cd $(dirname $0);cd ..;pwd)/temp${eth0address}
+tempfile=/tmp/dwmstatusbartemp
 this=_mem
 icon_color="^c#3B001B^^b#6873790x88^"
 text_color="^c#3B001B^^b#6873790x99^"
