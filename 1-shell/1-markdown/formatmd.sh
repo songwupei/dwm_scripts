@@ -13,7 +13,7 @@ mdtodocx() {
 	ofile=${fname:h}/${${fname:t}:r}_md.docx
 	pandoc -s ${fname} -o $ofile --reference-doc=/home/song/NutstoreFiles/0-Notes/1-MyNormals/normal.dotx
 	unset fname
-	echo "convert $1 to ${${1:t}:r}.docx"
+	echo "convert $1 to ${${1:t}:r}.dotx"
 }
 
 docxstomds(){
@@ -44,14 +44,15 @@ formatmd() {
 	(($+2)) && {
 	case $2 {
 		(basic)
-		sed -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /' -e 's/\(（\([一二三四五六七八九]\)）\)/### \1/' $1 > "${1:r}_format.${1:e}"
+		#sed -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /' -e 's/\(（\([一二三四五六七八九]\)）\)/### \1/' -e 's/\(^附件1\)/<br>\n\n<br\/>\n\n\1/' $1 > "${1:r}_format.${1:e}"
+		sed -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /' -e 's/\(（\([一二三四五六七八九]\)）\)/### \1/' -e 's/\(^附件1\)/\n\n<br>\n\n\1/' $1 > "${1:r}_format.${1:e}"
 		;;
 	(inline)
 		# replacehznum 解决sed 的贪婪模式， [^str]可以截断
 		tmpmd=${1:r}_tmp.${1:e}
 
 		replacehznum $1 > ${tmpmd}
-	        sed -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /' -e 's/\(（\([一二三四五六七八九]\)）\)/### \1/' ${tmpmd} > "${1:r}_format.${1:e}"
+	        sed -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /' -e 's/\(（\([一二三四五六七八九]\)）\)/### \1/' -e 's/\(^附件1\)/\n\n<br>\n\n\1/' ${tmpmd} > "${1:r}_format.${1:e}"
 		rm ${tmpmd}
 		;;
 ####	(skBold)
