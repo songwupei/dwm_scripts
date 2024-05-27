@@ -1,1 +1,0 @@
-/home/song/githubs/yaocccc/scripts/call_rofi.sh
