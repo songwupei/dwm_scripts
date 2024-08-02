@@ -17,7 +17,7 @@ daemons() {
     $_thisdir/statusbar/statusbar.sh cron &   # 开启状态栏定时更新
     #xss-lock -- ~/scripts/blurlock.sh &       # 开启自动锁屏程序
     #fcitx5 &                                  # 开启输入法
-    ibus-daemon --xim -d &                        # 开启输入法
+    ibus-daemon --xim -d &                     #better 开启输入法
     #ibus-daemon -rxR &                        # 开启输入法
     nutstore &
     #picom --experimental-backends --config ~/scripts/config/picom.conf >> /dev/null 2>&1 & # 开启picom
@@ -25,7 +25,7 @@ daemons() {
     #lemonade server &                         # 开启lemonade 远程剪切板支持
     flameshot &                               # 截图要跑一个程序在后台 不然无法将截图保存到剪贴板
     picom --backend glx --config ~/scripts/config/picom.conf >> /dev/null 2>&1 & # 开启picom
-    xset s 300 &
+    xset s 100 &
     $DWM/xsidle.sh slock &
 }
 
@@ -39,6 +39,6 @@ cron() {
     done
 }
 
-settings 5 &                                  # 初始化设置项
-daemons 5 &                                   # 后台程序项
-cron 5 &                                      # 定时任务项
+settings 4 &                                  # 初始化设置项
+daemons 4 &                                   # 后台程序项
+cron 4 &                                      # 定时任务项

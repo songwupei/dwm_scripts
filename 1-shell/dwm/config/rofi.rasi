@@ -4,7 +4,7 @@ configuration {
   display-windowcd: "";
   display-ssh: "";
   display-run: "﮸";
-  show-icons: false;
+  show-icons: true;
   drun-display-format: "{icon} {name}";
   window-format: "{icon} {name}";
   run {
@@ -86,3 +86,12 @@ element-icon {
     size: 30px;
     border: 0px;
 }
+//@theme "/home/song/.local/share/rofi/themes/rounded-nord-dark.rasi"
+//@theme "/home/song/.local/share/rofi/themes/rounded-nord-dark.rasi"
+//@theme "/home/song/.local/share/rofi/themes/rounded-nord-dark.rasi"
+//@theme "/home/song/.local/share/rofi/themes/rounded-nord-dark.rasi"
+//@theme "/home/song/.local/share/rofi/themes/rounded-nord-dark.rasi"
+//@theme "/home/song/.local/share/rofi/themes/rounded-nord-dark.rasi"
+//@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+//@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+@theme "/home/song/.local/share/rofi/themes/rounded-nord-dark.rasi"
