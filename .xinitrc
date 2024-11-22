@@ -12,8 +12,8 @@ XMODIFIERS=@im=ibus
 # GTK_IM_MODULE=fcitx
 # QT_IM_MODULE=fcitx
 # XMODIFIERS=@im=fcitx
- exec dwm
-# exec i3
+exec dwm
+#exec i3
 
 # export DESKTOP_SESSION=plasma 
 # exec startplasma-x11

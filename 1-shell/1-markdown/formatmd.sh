@@ -52,8 +52,11 @@ formatmd() {
 		tmpmd=${1:r}_tmp.${1:e}
 
 		replacehznum $1 > ${tmpmd}
-	        sed -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /' -e 's/\(（\([一二三四五六七八九]\)）\)/### \1/' -e 's/\(^附件1\)/\n\n<br>\n\n\1/' ${tmpmd} > "${1:r}_format.${1:e}"
+	        sed -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /' -e 's/\(（\([一二三四五六七八九十]\)）\)/### \1/' -e 's/\(^附件1\)/\n\n<br>\n\n\1/' ${tmpmd} > "${1:r}_format.${1:e}"
 		rm ${tmpmd}
+		;;
+		(zhidu)
+		sed -e 's/\(第[一二三四五六七八九十]\{1,3\}章\)/## \\indent \1/' -e '1s/^/# /' -e '2s/^/\n\n<br>\n\n/' -e 's/\(第[一二三四五六七八九十]\{1,3\}条\)/　　\*\*\1\*\*/'  $1 > "${1:r}_format.${1:e}"
 		;;
 ####	(skBold)
 ####		# 暂时无法解决sed 的贪婪模式，需要使用202去截断
@@ -94,4 +97,20 @@ printf " -e '%s s/（[一二三四五六七八九]）\([^。]*。\)\(.*。\)/（
 printf "%s" $1 >> $formatmdCmd
 zsh $formatmdCmd 
 
+}
+
+mdtopdf() {
+	echo "convert md to pdf"
+fname=$1
+pdf_template=/home/song/NutstoreFiles/0-Notes/1-MyNormals/eisvogel.tex
+pdf_engine=~/bin/xelatex
+
+# fc-list :lang=zh 查看字体
+[[ -z $2 ]] && CJKmainfont="等距更纱黑体 SC"
+[[ -n $2 ]] && CJKmainfont=$2
+pandoc -s $1 -o ${fname:r}.pdf --from markdown --template $pdf_template --listings --pdf-engine $pdf_engine  -V CJKmainfont=$CJKmainfont
+	unset fname
+	unset pdf_engine
+	unset pdf_template
+	echo "convert $1 to ${1:r}.pdf"
 }

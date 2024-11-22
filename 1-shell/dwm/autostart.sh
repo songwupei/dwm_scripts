@@ -33,7 +33,7 @@ cron() {
     [ $1 ] && sleep $1
     let i=1200
     while true; do
-    #    [ $((i % 30)) -eq 0 ] && ~/scripts/set_screen.sh check # 每10秒检查显示器状态 以此自动设置显示器
+        [ $((i % 30)) -eq 0 ] && ~/scripts/set_screen.sh check # 每10秒检查显示器状态 以此自动设置显示器
         [ $((i % 1200)) -eq 0 ] && feh --randomize --bg-fill ~/Pictures/wallpaper/*.jpg # 每300秒更新壁纸
         sleep 1200; let i+=1200
     done
