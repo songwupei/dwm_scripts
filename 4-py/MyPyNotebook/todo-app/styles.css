@@ -1,0 +1,147 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+#file-input {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#loan-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#loan-table th,
+#loan-table td {
+/* 基础样式 */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 控制区域样式 */
+#controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+#filters {
+    display: flex;
+    gap: 10px;
+}
+
+#group-filter,
+#unit-filter,
+#institution-filter,
+#rate-type-filter {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#export-btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#export-btn:hover {
+    background-color: #0056b3;
+}
+
+.date-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#report-date {
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#lpr-rate {
+    padding: 8px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#lpr-rate-value {
+    color: #007bff;
+}
+
+/* 表格样式 */
+#loan-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#loan-table th,
+#loan-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#loan-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+#loan-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#loan-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 加载状态 */
+.loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#loan-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+#loan-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#loan-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}

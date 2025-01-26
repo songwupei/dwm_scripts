@@ -1,0 +1,95 @@
+May 11 17:17 : exception: Failed to open '/home/song/.config/mpd/state': No such file or directory
+May 11 17:17 : exception: Failed to access /home/song/Music: No such file or directory
+May 11 17:17 : exception: inotify_add_watch() has failed: No such file or directory
+May 11 17:51 : update: added /周深 - 悬崖之上.mp3
+May 11 17:51 : update: added /周深 - 悬崖之上.flac
+May 11 17:51 : update: added /周深 - 悬崖之上.mp3
+May 11 17:51 : update: added /周深 - 悬崖之上.flac
+May 11 18:28 : player: played "周深 - 悬崖之上.mp3"
+May 11 18:28 : player: played "周深 - 悬崖之上.mp3"
+May 11 18:29 : player: played "周深 - 悬崖之上.mp3"
+May 11 18:30 : player: played "周深 - 悬崖之上.mp3"
+May 11 18:33 : player: played "周深 - 悬崖之上.mp3"
+May 11 18:45 : player: played "周深 - 悬崖之上.mp3"
+May 11 18:51 : player: played "周深 - 悬崖之上.mp3"
+May 11 18:53 : player: played "周深 - 悬崖之上.mp3"
+May 11 19:10 : player: played "周深 - 悬崖之上.mp3"
+May 11 19:11 : update: added /周深 - 悬崖之上2.flac
+May 11 19:11 : update: added /周深 - 悬崖之上1.flac
+May 11 19:11 : update: added /周深 - 悬崖之上1.mp3
+May 11 19:11 : player: played "周深 - 悬崖之上2.flac"
+May 11 19:11 : player: played "周深 - 悬崖之上.flac"
+May 11 20:37 : player: played "周深 - 悬崖之上1.mp3"
+May 11 20:45 : player: played "周深 - 悬崖之上1.mp3"
+May 11 20:48 : player: played "周深 - 悬崖之上.mp3"
+May 11 21:00 : player: played "周深 - 悬崖之上.mp3"
+May 12 12:18 : player: played "周深 - 悬崖之上.flac"
+May 12 12:25 : player: played "周深 - 悬崖之上1.flac"
+May 12 12:35 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 12 12:35 : player: played "周深 - 悬崖之上.flac"
+May 12 13:11 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 12 13:11 : player: played "周深 - 悬崖之上2.flac"
+May 12 15:15 : player: played "周深 - 悬崖之上.flac"
+May 17 12:27 : player: played "周深 - 悬崖之上1.mp3"
+May 17 12:30 : player: played "周深 - 悬崖之上2.flac"
+May 17 12:33 : player: played "周深 - 悬崖之上1.mp3"
+May 17 12:37 : player: played "周深 - 悬崖之上1.mp3"
+May 17 12:42 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 12:43 : player: played "周深 - 悬崖之上2.flac"
+May 17 12:47 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 12:47 : player: played "周深 - 悬崖之上.flac"
+May 17 13:32 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 13:32 : player: played "周深 - 悬崖之上1.flac"
+May 17 13:37 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 13:37 : player: played "周深 - 悬崖之上2.flac"
+May 17 13:42 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 13:42 : player: played "周深 - 悬崖之上.flac"
+May 17 16:10 : player: played "周深 - 悬崖之上.mp3"
+May 17 16:15 : player: played "周深 - 悬崖之上1.mp3"
+May 17 18:11 : player: played "周深 - 悬崖之上1.mp3"
+May 17 18:15 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 18:16 : player: played "周深 - 悬崖之上1.flac"
+May 17 18:20 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 18:20 : player: played "周深 - 悬崖之上2.flac"
+May 17 18:25 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 18:25 : player: played "周深 - 悬崖之上.flac"
+May 17 19:18 : player: played "周深 - 悬崖之上1.mp3"
+May 17 19:19 : player: played "周深 - 悬崖之上1.flac"
+May 17 19:24 : player: played "周深 - 悬崖之上1.mp3"
+May 17 19:26 : player: played "周深 - 悬崖之上1.flac"
+May 17 19:33 : player: played "周深 - 悬崖之上.mp3"
+May 17 19:38 : player: played "周深 - 悬崖之上1.mp3"
+May 17 19:43 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 17 19:43 : player: played "周深 - 悬崖之上1.flac"
+May 17 19:49 : player: played "周深 - 悬崖之上2.flac"
+May 18 18:26 : player: played "周深 - 悬崖之上2.flac"
+May 18 18:28 : player: played "周深 - 悬崖之上.flac"
+May 18 18:33 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 18 18:34 : player: played "周深 - 悬崖之上1.flac"
+May 18 18:38 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 18 18:38 : player: played "周深 - 悬崖之上2.flac"
+May 18 18:43 : flac: FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+May 18 18:43 : player: played "周深 - 悬崖之上.flac"
+May 19 09:13 : update: added /想把我唱给你听 - 老狼,小柯,曹芳,王筝.mp3
+May 19 09:13 : update: added /新裤子-假如生活欺骗了你.mp3
+May 19 09:14 : player: played "周深 - 悬崖之上.mp3"
+May 19 12:06 : player: played "新裤子-假如生活欺骗了你.mp3"
+May 19 14:27 : player: played "新裤子-假如生活欺骗了你.mp3"
+May 19 15:21 : player: played "新裤子-假如生活欺骗了你.mp3"
+May 19 15:35 : player: played "新裤子-假如生活欺骗了你.mp3"
+May 19 16:06 : player: played "新裤子-假如生活欺骗了你.mp3"
+May 19 16:10 : player: played "想把我唱给你听 - 老狼,小柯,曹芳,王筝.mp3"
+May 19 20:03 : player: played "新裤子-假如生活欺骗了你.mp3"
+May 19 20:08 : player: played "想把我唱给你听 - 老狼,小柯,曹芳,王筝.mp3"
+Jun 01 20:08 : player: played "新裤子-假如生活欺骗了你.mp3"
+Jun 01 20:13 : player: played "想把我唱给你听 - 老狼,小柯,曹芳,王筝.mp3"
+Jul 04 14:19 : player: played "周深 - 悬崖之上.mp3"
+Jul 04 14:22 : player: played "新裤子-假如生活欺骗了你.mp3"
+Jul 04 14:27 : player: played "想把我唱给你听 - 老狼,小柯,曹芳,王筝.mp3"
+Jul 04 21:16 : player: played "周深 - 悬崖之上.mp3"
+Jul 04 21:19 : player: played "新裤子-假如生活欺骗了你.mp3"
+Jul 04 21:24 : player: played "想把我唱给你听 - 老狼,小柯,曹芳,王筝.mp3"
+Dec 05 18:02 : player: played "周深 - 悬崖之上.mp3"
+Jun 11 10:20 : player: played "周深 - 悬崖之上.mp3"
+Jun 11 10:24 : player: played "新裤子-假如生活欺骗了你.mp3"
+Jun 11 10:28 : player: played "想把我唱给你听 - 老狼,小柯,曹芳,王筝.mp3"

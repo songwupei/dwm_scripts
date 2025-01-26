@@ -1,0 +1,17 @@
+sw_volume: 100
+audio_device_state:1:pulse audio
+audio_device_state:1:Visualizer feed
+state: stop
+current: 0
+random: 0
+repeat: 0
+single: 0
+consume: 0
+crossfade: 5
+mixrampdb: 0.000000
+mixrampdelay: -1.000000
+playlist_begin
+0:周深 - 悬崖之上.mp3
+1:新裤子-假如生活欺骗了你.mp3
+2:想把我唱给你听 - 老狼,小柯,曹芳,王筝.mp3
+playlist_end

@@ -1,0 +1,3 @@
+registry=https://mirrors.huaweicloud.com/repository/npm/
+always-auth=false
+strict-ssl=true

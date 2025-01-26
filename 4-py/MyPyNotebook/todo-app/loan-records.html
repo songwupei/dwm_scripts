@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贷款台账查看</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h1>贷款台账查看</h1>
+    <div id="controls">
+        <div id="file-input">
+            <input type="file" id="excel-file" accept=".xlsx">
+        </div>
+        <div id="filters">
+            <button id="export-btn">导出Excel</button>
+            <input type="text" id="group-filter" placeholder="筛选所属子集团">
+            <input type="text" id="unit-filter" placeholder="筛选单位名称">
+            <input type="text" id="institution-filter" placeholder="筛选金融机构">
+            <select id="rate-type-filter">
+                <option value="">全部利率类型</option>
+                <option value="固定利率">固定利率</option>
+                <option value="浮动利率">浮动利率</option>
+            </select>
+            <div class="date-picker">
+                <label for="report-date">报告日期：</label>
+                <input type="date" id="report-date">
+            </div>
+            <div id="lpr-rate">
+                LPR利率：<span id="lpr-rate-value">--</span>
+            </div>
+        </div>
+    </div>
+    <div class="loading" id="loading">正在加载数据...</div>
+    <table id="loan-table">
+        <thead>
+            <tr>
+                <th>所属子集团</th>
+                <th>单位名称</th>
+                <th>金融机构</th>
+                <th>借款分支机构</th>
+                <th>金额</th>
+                <th>未还款金额</th>
+                <th>币种</th>
+                <th>利率类型</th>
+                <th>实际执行年利率(%)</th>
+                <th>开始日期</th>
+                <th>终止日期</th>
+                <th>贷款利率类型</th>
+                <th>贷款基准利率</th>
+                <th>加/减</th>
+                <th>浮动值</th>
+                <th>浮动值单位</th>
+                <th>LPR基准利率</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        let allData = []; // 存储所有数据
+        let lprData = {};
+
+        async function fetchLPRData() {
+            // 使用默认数据
+            lprData = {
+                "2024-01-01": 3.45,
+                "2024-02-01": 3.45,
+                "2024-03-01": 3.45,
+                "2024-04-01": 3.45,
+                "2024-05-01": 3.45,
+                "2024-06-01": 3.45,
+                "2024-07-01": 3.45,
+                "2024-08-01": 3.45,
+                "2024-09-01": 3.45,
+                "2024-10-01": 3.45,
+                "2024-11-01": 3.45,
+                "2024-12-01": 3.45
+            };
+            console.log('使用默认LPR数据');
+        }
+        
+        function getLPRRate(date) {
+            const dates = Object.keys(lprData).sort();
+            let selectedRate = null;
+            
+            for (const d of dates) {
+                if (d <= date) {
+                    selectedRate = lprData[d];
+                } else {
+                    break;
+                }
+            }
+            
+            return selectedRate;
+        }
+        
+        function filterData() {
+            const lenderFilter = document.getElementById('lender-filter').value.toLowerCase();
+            const branchFilter = document.getElementById('branch-filter').value.toLowerCase();
+            const unitFilter = document.getElementById('unit-filter').value.toLowerCase();
+            const currencyFilter = document.getElementById('currency-filter').value;
+            
+            const filteredData = allData.filter(row => {
+                const matchesLender = row['放款单位名称'].toLowerCase().includes(lenderFilter);
+                const matchesBranch = row['借款分支机构'].toLowerCase().includes(branchFilter);
+                const matchesUnit = row['单位名称'].toLowerCase().includes(unitFilter);
+                const matchesCurrency = currencyFilter === '' || row['币种'] === currencyFilter;
+                return matchesLender && matchesBranch && matchesUnit && matchesCurrency;
+            });
+            
+            renderTable(filteredData);
+        }
+        
+        function renderTable(data) {
+            const tableBody = document.querySelector('#loan-table tbody');
+            tableBody.innerHTML = '';
+            
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                Object.values(row).forEach(value => {
+                    const td = document.createElement('td');
+                    td.textContent = value;
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+        
+        // 更新LPR利率显示
+        function updateLPRRate(date) {
+            const rate = getLPRRate(date);
+            document.getElementById('lpr-rate-value').textContent = rate !== null ? rate + '%' : '--';
+        }
+
+        // 初始化
+        (async function() {
+            await fetchLPRData();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('report-date').value = today;
+            updateLPRRate(today);
+        })();
+
+        // 日期选择事件
+        document.getElementById('report-date').addEventListener('change', function(e) {
+            updateLPRRate(e.target.value);
+        });
+
+        // 文件选择事件
+        // 导出功能
+        document.getElementById('export-btn').addEventListener('click', function() {
+            if (allData.length === 0) {
+                alert('请先上传数据');
+                return;
+            }
+            
+            const worksheet = XLSX.utils.json_to_sheet(allData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, '贷款台账');
+            
+            const date = new Date().toISOString().slice(0, 10);
+            XLSX.writeFile(workbook, `贷款台账_${date}.xlsx`);
+        });
+
+        // 文件选择事件
+        document.getElementById('excel-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            document.getElementById('loading').style.display = 'block';
+            
+            reader.onload = function(e) {
+                document.getElementById('loading').style.display = 'none';
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                allData = XLSX.utils.sheet_to_json(worksheet);
+                filterData();
+            };
+            
+            reader.readAsArrayBuffer(file);
+        });
+        
+        document.getElementById('lender-filter').addEventListener('input', filterData);
+        document.getElementById('branch-filter').addEventListener('input', filterData);
+        document.getElementById('unit-filter').addEventListener('input', filterData);
+        document.getElementById('currency-filter').addEventListener('change', filterData);
+        
+        document.getElementById('borrower-filter').addEventListener('input', filterData);
+        document.getElementById('status-filter').addEventListener('change', filterData);
+    </script>
+</body>
+</html>

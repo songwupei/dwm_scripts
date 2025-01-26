@@ -1,0 +1,38 @@
+# Start configuration added by Zim install {{{
+# -------
+# Modules
+# -------
+zmodule git-info
+zmodule duration-info
+
+zmodule z-shell/F-Sy-H
+zmodule zsh-users/zsh-history-substring-search
+zmodule zsh-users/zsh-autosuggestions
+#zmodule sorin-ionescu/prezto --root modules/history --no-submodules
+
+zmodule termtitle
+zmodule utility
+zmodule input
+#zmodule sorin-ionescu/prezto --root modules/command-not-found --no-submodules
+
+zmodule zsh-users/zsh-completions --fpath src
+zmodule completion
+##推荐插件
+##必要
+##
+##    input，配置按键，例如 home 键移动到当前行的开头
+##    F-Sy-H，语法高亮
+##        也可以选择 fast-syntax-highlighting 或 zsh-syntax-highlighting，区别不大
+##    zsh-autosuggestions，在终端显示命令建议
+##    zsh-completions，许多外部命令的自动补全
+##    zsh-history-substring-search，使用方向键搜索命令历史记录
+##
+##可选
+##
+##    history，命令历史相关设置，比直接使用 setopt 方便和快速
+##    command-not-found，输入不存在的命令时提示安装命令
+##    sudo，双击 esc 时在命令前添加 sudo
+##    completion，自动补全相关设置
+##    utility，命令缩写以及为 ls、grep 和 less 命令输出上色
+##    termtitle，设置终端标题，例如设置为当前路径
+##
