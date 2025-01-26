@@ -1,0 +1,1272 @@
+# starship
+eval "$(starship init zsh)"
+# zimfw
+export ZIM_HOME=~/.zim
+source ${ZIM_HOME}/init.zsh
+source /home/song/.zim/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/song/.zim/modules/zsh-completions/zsh-completions.plugin.zsh
+source /home/song/.zim/modules/completion/init.zsh
+source /home/song/.zim/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /home/song/.zim/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
+source /home/song/.zim/modules/fzf-tab/fzf-tab.zsh
+eval "$(lua ${ZIM_HOME}/modules/z.lua/z.lua --init zsh enhanced once)"
+# User configuration
+export NutstoreFilesPath="/home/song/NutstoreFiles"
+export PYTHONPATH="${PYTHONPATH}:/home/song/NutstoreFiles/2-Code/1-MyPython/0-MyPyPkg"
+export EDITOR="nvim"
+export PHOME="/home/song/NutstoreFiles/3-STEM"
+export MYTOOLS="/home/song/NutstoreFiles/2-Code/0-MyShell/0-MyTools"
+export MYSCRIPTS="$NutstoreFilesPath/scripts"
+export quartoenv="py310" 
+export condaenv="py310" 
+
+# zsh_history
+export HISTFILE=~/.zsh_history
+export SAVEHIST=5000
+export HISTSIZE=5000
+setopt HIST_IGNORE_ALL_DUPS # 去掉重复的命令
+setopt HIST_IGNORE_SPACE # 去掉开头具有空格的命令
+# cd my path
+CDPATH=:~:~/NutstoreFiles
+setopt autocd
+# set open-mime
+alias -s pdf=zathura
+alias -s md=typora
+# {1-9} sub {1..9}
+setopt braceccl
+# little tools 
+alias hysleep="systemctl hybrid-sleep"
+alias weather="curl wttr.in/BeiJing?format=4"
+alias fixgpgkeyerr="sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf"
+alias xonshup="conda activate py310 ; xonsh"
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+#if [[ -n $SSH_CONNECTION ]]; then
+#    export EDITOR='vim'
+#else
+#    export EDITOR='nvim'
+#fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias szshrc="source ~/.zshrc;echo 'reload zshrc'"
+alias lslf="exa -lF" # 简写ls命令
+alias lsgit="exa --git -lh" # 简写ls命令
+mv2githubs () { # 移动下载git到 ~/githubs
+		mv $(find . -maxdepth 1 -name $1 ${HOME}/githubs)
+}
+pacmanQe () {
+pacman -Qe | grep $1 | awk -F' ' '{ print $1 }' #| sudo pacman -Rns -
+}
+
+alias cputemp="sudo cat /sys/class/thermal/thermal_zone0/temp" 
+# set Nemo as default file brower
+alias setnemo="xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search" 
+# shell_stdy temp
+local zshpath=${PHOME}/706.Terminal/2.ZSH
+alias zshhw="cd ~/文档/zsh_hw#"
+alias zshfd="cd $zshpath"
+alias txtdemo="cd ${PHOME}/9.shell/raw/"
+
+# VIM_study temp
+local vimpath=${PHOME}/704.IDE/VIM
+alias vimfd="cd $vimpath"
+## 0-myscripts
+## backup config_file of zsh i3w vim coc-set  etc
+
+bkfile() {
+	local taday 
+	local backup_path=${PHOME}/701.Linux/.config
+
+	zmodload zsh/datetime
+	strftime -s taday "%Y.%m.%d"
+	zmodload -u zsh/datetime
+	[[ -e $backup_path ]] || mkdir $backup_path
+	if [[ $#1 == 3 ]] {
+		case $1 {
+			(vim)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/vim${taday}.tar ~/.config/vim
+			;;
+			(zsh)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/zsh${taday}.tar ~/.config/zsh
+			;;
+			(coc)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			cp -i ~/.vim/coc-settings.json ${backup_path}/$1/coc-settings.json_bk${taday}
+			;;
+			(dwm)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/dwmrc${taday}.tar ~/scripts
+			;;
+			(ssh)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/ssh${taday}.tar ~/.ssh
+			;;
+			(*)
+			echo error
+			;;
+		} } elif [[ $#1 == 4 ]] {
+
+		case $1 {
+			(i3wm)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			cp -i ~/.config/i3/config ${backup_path}/$1/i3wm_config_bk${taday}
+			;;
+			(nvim)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/nvim${taday}.tar ~/.local/share/nvim/site/pack/packer/*
+			;;
+			(acpi)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/acpi${taday}.tar /etc/acpi/*
+			;;
+			(yazi)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/${1}${taday}.tar ~/.config/${1}/*
+			;;
+	        (*)
+			echo error
+			;;
+		} } elif [[ $#1 == 5 ]] {
+
+		case $1 {
+			(vimrc)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			cp -i ~/.vimrc ${backup_path}/$1/vimrc_bk${taday}
+			;;
+			(dwmrc)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			cp -i ~/.xinitrc ${backup_path}/$1/dwm_xinitrc_bk${taday}
+			;;
+			(zshrc)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1 
+			cp -i ~/.zshrc ${backup_path}/$1/zshrc_bk${taday}
+			;;
+			(xonsh)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/xonsh${taday}.tar ~/.config/xonsh
+			;;
+     	(*)
+			echo error
+			;;
+	}  }  elif [[ $#1 == 6 ]] {
+		case $1 {
+			(ranger)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/ranger${taday}.tar ~/.config/ranger 
+			;;
+			(nvimrc)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/nvimrc${taday}.tar ~/.config/nvim
+			;;
+	        (*)
+			echo error
+			;;
+	}  }  elif [[ $#1 == 7 ]] {
+		case $1 {
+			(joshuto)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			tar -cvPf ${backup_path}/$1/$1${taday}.tar ~/.config/$1
+			;;
+			(zathura)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			cp -i ~/.config/zathura/zathurarc ${backup_path}/$1/zathurarc_bk${taday}
+			;;
+			(xonshrc)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			cp -i ~/.xonshrc ${backup_path}/$1/xonshrc_bk${taday}
+			;;
+			(gpgconf)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1 
+			cp -i ~/.gnupg/gpg.conf ${backup_path}/$1/gpgconf_bk${taday}
+			;;
+	        (*)
+			echo error
+			;;
+	}  }  elif [[ $#1 == 8 ]] {
+		case $1 {
+			(neofetch)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			cp -i ~/.config/neofetch/config.conf ${backup_path}/$1/neofetch_config_bk${taday}
+			;;
+			(starship)
+	        [[ -e $backup_path/$1 ]] || mkdir $backup_path/$1
+			cp -i ~/.config/starship.toml ${backup_path}/$1/starship_config_bk${taday}
+			;;
+	        (*)
+			echo error
+			;;
+	}}
+		unset taday
+		unset backup_path
+}
+# move the backup_file
+mvbkfile() {
+		echo $2
+		tname=${1:t}
+		# filepath is absolute full path
+		case $2 {
+				(nvim | ranger | joshuto |dwm | zsh | acpi| nvimrc | ssh | xonsh| vim | yazi)
+						tar -xvf  $1 -C /
+						;;
+        (zshrc)
+						cp -i  $1 ~/.zshrc
+						;;
+				(vimrc)
+						cp -i  $1 ~/.vimrc
+						;;
+				(xonshrc)
+						cp -i  $1 ~/.xonshrc
+						;;
+				(coc)
+						cp -i  $1 ~/.vim/coc-settings.json
+						;;
+				(i3wm)
+						cp -i  $1 ~/.config/i3/config
+						;;
+				(dwmrc)
+						cp -i  $1 ~/.xinitrc
+						;;
+				(neofetch)
+						cp -i  $1 ~/.config/neofetch/config.conf
+						;;
+				(starship)
+						cp -i  $1 ~/.config/starship.toml
+						;;
+				(zathura)
+						cp -i  $1 ~/.config/zathura/zathurarc
+						;;
+         (gpgconf)
+						cp -i  $1 ~/.gnupg/gpg.conf
+						;;
+				(*)
+						cp -i  error
+						;;
+				}
+}
+
+# restore the backup_file 
+restorebkfile() {  
+		echo "确保有60天内新备份的修改文件"
+		echo "需要两个变量：\$1 如zsh \$2 选择head|tail"
+		local cmdname=$1
+		# fpath=$backup_path/${$(ls -t $backup_path | grep $1* -m 1)}
+    	local backup_path=${PHOME}/701.Linux/.config
+		# local fpath=${$(find $backup_path/$1 -type f -name $1\* -mtime -60 -print0 | $2 -z -n 1 | tr -d '\0')}
+		local fpath=${$(find $backup_path/$1 -type f -name $1\* -mtime -60 | sort |  $2 -n 1 )}
+		local bkfile=$backup_path/$1/${fpath:t}
+	if [[ -e $bkfile ]] {
+		mvbkfile $bkfile $cmdname
+	}	elif {
+    	echo err_bkfile
+	}
+unset cmdname
+unset backup_path
+unset fpath
+unset bkfile
+}
+
+## ZSH/Tools
+# 1.zip_tools
+alias zipal='zsh ${MYTOOLS}/al'
+alias zipa='zsh ${MYTOOLS}/a'
+alias zipx='zsh ${MYTOOLS}/x'
+zipxgbk() {
+		unzip -O gb18030 $1
+}	
+# 2.rr 并发运行命令的工具
+
+# alias rr='zsh ~/Nutstore\ Files/Python/706.Terminal/ZSH/Tools/rr'
+# rr 是一个函数（可放在 .zshrc 中），直接 rr 加命令即可使用
+# 格式：rr [-j<10>] 
+# 命令中支持变量、重定向等等，格式上和直接输入命令没有区别（不支持 alias）
+# 如果不加参数，则显示当前运行的进程数、最大进程并发数和运行中进程的进程号
+# 默认最大进程并发数是 10
+# 用 -j 来指定最大进程并发数，指定一次即可，如需修改可再次指定
+# 可以只调整最大进程并发数而不运行命令
+# 超过了最大进程并发数，等待，并且每一秒检查一次是否有进程退出
+# 如果有进程退出，则继续在后台运行当前命令
+rr() {
+		(($+max_process)) || typeset -g max_process=10
+		(($+running_process)) || typeset -gA running_process=()
+
+		[[ $1 == -j<1-> ]] && {
+				max_process=${1[3,-1]}
+        shift
+    }
+
+    (($# == 0)) && {
+        for i (${(k)running_process}) {
+            [[ -e /proc/$i ]] || unset "running_process[$i]"
+        }
+
+        echo "running/max: $#running_process/$max_process"
+        (($#running_process > 0)) && echo "pid: ${(k)running_process}"
+        return
+    }
+
+    while ((1)) {
+        local running_process_num=$#running_process
+
+        if (($running_process_num < max_process)) {
+            $* &
+            running_process[$!]=1
+            return
+        }
+
+        for i (${(k)running_process}) {
+            [[ -e /proc/$i ]] || unset "running_process[$i]"
+        }
+
+        (($#running_process == $running_process_num)) && {
+            echo "running/max: $running_process_num/$max_process, wait 1s ..."
+            echo "pid: ${(k)running_process}"
+            sleep 1
+        }
+    }
+}
+ 
+# 检查端口是否被占用并输出占用程序
+check_port_usage() {
+    port=$1
+    # 使用netstat命令检查端口
+    result=$(netstat -tulnp | grep :$port)
+    if [ -z "$result" ]; then
+        echo "Port $port is not being used."
+    else
+        # 输出占用端口的进程ID
+        echo "Port $port is being used by the following processes:"
+        netstat -tulnp | grep :$port
+        echo "================"
+        echo "================"
+        echo "Result Of lsof"
+        echo "================"
+        echo "================"
+				lsof -i:$1 | head -n3
+    fi
+}
+
+# 3.python
+local pythonpath="/home/song/NutstoreFiles/Python"
+local pytoolspath="$pythonpath/INGwork/VSCODE/My_Packages"
+mp3tagiconvpath="$pytoolspath/mp3tagiconv.py"
+alias pytoolsfd="cd $pytoolspath"
+# alias mp3tagsedit="python3 $mp3tagiconvpath"
+mp3tagsedit() {
+	# local pypath='/home/song/Nutstore\ Files/Python/INGwork/VSCODE/My_Packages/mp3tagiconv.py'
+	# python3 $pypath --mp3fd_path $1 --find_pat $2
+	python3 /home/song/NutstoreFiles/Python/INGwork/VSCODE/My_Packages/mp3tagiconv.py --mp3fd_path $1 --find_pat $2
+	}
+
+alias pythonfd="cd $pythonpath"
+
+# 4.mp3tag
+local zshtoolspath="~/NutstoreFiles/Python/706.Terminal/ZSH/Tools"
+alias zshtoolsfd="cd $zshtoolspath"
+alias mp3tag="zsh $zshtoolspath/mp3tag.zsh"
+
+alias xj803fd="cd ~/Music/刑警803"
+
+# 5.network
+getessid() {
+iwconfig wlp1s0 | grep ESSID: | sed 's/.*ESSID://' | tr -d '"' | tr -d ' '
+}
+mydevicename() {
+	sudo iwctl device list | awk '{for(i=NF;i>0;i--){if($i~/wlan/){print $i}}}'
+}
+myip() {
+		curl cip.cc
+}
+mywific() {
+		local devicename
+		# use iwctl connect myhotpot goood
+		# devicename=$(sudo iwctl device list | grep wlan | awk '{print $2}')
+		devicename=$(mydevicename)
+		sudo iwctl station $devicename scan
+		sleep 3
+		sudo iwctl --passphrase 01068787948 station $devicename connect goood
+		unset devicename
+}
+
+mywifid() {
+		local devicename
+		# use iwctl disconnect wifi
+
+		# devicename=$(sudo iwctl device list | grep wlan | awk '{print $2}')
+		devicename=$(mydevicename)
+		sudo iwctl station $devicename disconnect
+		unset devicename
+}
+mywifis() {
+		local devicename
+		# use iwctl connect myhotpot goood
+		# devicename=$(sudo iwctl device list | grep wlan | awk '{print $2}')
+		devicename=$(mydevicename)
+		sudo iwctl device $devicename show
+		unset devicename
+}
+# 6.open_apps
+source ${HOME}/scripts/1-shell/nutstore_start.zsh
+
+# 7.word_tools
+
+kwrn() {
+		 ## keyword_row_number
+		cat $1 | grep -n "$2" | cut -d":" -f1
+ }
+ 
+dtokwrn() {
+		# delete to KeyWord_Row_Number line
+		# $1 filepath $2 keyword
+		dnu=$(( $(kwrn $1 $2)-1 ))
+		echo $dnu
+		if [[ $dnu -gt 1 ]] {
+	    sed -i '1,'${dnu}'d'  $1
+}
+echo $2
+}
+
+dfromkwrn() {
+		# delete from KeyWord_Row_Number line to END
+		# $1 filepath $2 keyword
+		dnu=$(kwrn $1 $2)
+		# echo $dnu
+		mdwc=$( cat $1 | wc -l )
+		if [[ $dnu -lt $mdwc ]] {
+	    sed -i ''${dnu}',$d'  $1
+}
+echo '已处理${1:t}'
+}
+
+# 8.reinstall_OS
+# pacman -S ibus-pinyin picom dunst feh
+# yay -S nutstore surf-git siji-git
+## 安装字体
+# cp * /usr/share/fonts
+# sudo mkfontscale
+# mkfontdir
+# fc-cache
+#
+#
+
+# config
+## 1.vim
+alias vvimrc="vim ~/.vimrc"
+
+xfdfile() {
+	# 命令:vim 要查找文件:perl2.pl 新文件:perl4.pl
+	if (($+3)) {
+	$1 ${$(find  ~/**/$2):h}/$3
+} elif (($+2)) {
+	$1 ${$(find  ~/**/$2):h}/$2
+} else {
+	echo 'error'
+}}
+
+vsnippets() {
+	vim ${HOME}/.config/coc/ultisnips/$1.snippets
+}
+
+alias vcocjson="vim ~/.vim/coc-settings.json"
+alias nvcocjson="nvim ~/.vim/coc-settings.json"
+
+
+## 2.zsh
+alias vzshrc="vim ~/.zshrc"
+alias nzshrc="nvim ~/.zshrc"
+
+## 3.tmux
+alias vtmuxcf="vim ${HOME}/.tmux.conf"
+
+## 4.ranger/joshuto
+alias rg="ranger"
+alias ra="joshuto"
+ranger() {
+		# Preventing nested raner instances
+if [ -z "$RANGER_LEVEL" ]; then
+	/usr/bin/ranger "$@"
+else
+	exit
+fi
+}
+## 5.i3wm
+alias vi3wmrc="vim ~/.config/i3/config"
+
+## 6.dwm
+alias vdwmrc="vim ~/.dwm/config.h"
+killps() {
+		kill -9 $(ps ax |grep -v grep | grep -e $1 | awk '{print $1}')
+}
+killwechatuos() {
+	kill -SIGTERM -- -$(ps x -o "%r %c" | awk '{ n=substr($0,index($0,$2)); if(n~/uos/){print $1;exit} }')
+}
+
+webwx() {
+		## 访问 wx.qq.com
+	if [[ -z $1 ]] {
+		surf  wx.qq.com 
+}	else {
+		$1 wx.qq.com
+	}
+}
+
+findps() {
+		ps ax |grep -v grep | grep -e $1 | awk 'BEGIN {print "id    ,CMD    ,detail"} {printf "%s %s %s %s\n",$1,$5,$6,$7;} '
+}
+
+nutstoredaemon() {
+		case $(os-info) {
+			("Arch")
+				exec nutstore &
+				;;
+		("Ubuntu")	
+	 ${HOME}/.nutstore/dist/bin/nutstore-pydaemon.py &
+	 ;;
+ }
+}
+
+swap-button() {
+IoName="Logitech Wireless Mouse PID:4091"
+if (($+1)) {
+		xinput set-button-map $1 3 2 1
+} else {
+xinput set-button-map "${IoName}" 3 2 1
+}
+}
+
+starttlp() {
+		sudo tlp start
+		sudo systemctl mask systemd-rfkill.service
+}
+## 7-git
+gitclonesuckless () {
+git clone https://git.suckless.org/$1
+}
+
+gitclonegithub () {
+git clone https://github.com/$1
+}
+gitinit() {
+git config –global user.name 'songwupei'
+git config –global user.email 'songwupei@163.com'
+}
+sshinit() {
+		ssh-keygen -t rsa -C 'songwupei@163.com'
+}
+## 9.shell
+### format disks
+sgmydisk() {
+sudo sgdisk -o -n 1:0:+10M -t 1:EF02 -n 2:0:+500M -t 2:EF00 -n 3:0: -t 3:8300 $1
+}
+### rsync -aAHXv --exclude 
+rsyncOS() {
+		sudo rsync -aAHXv --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+find/*"} $1 $2
+} 
+
+rsyncOS2U() {
+		sudo rsync -aAHXv -exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+find/*","/home/song/Downloads/*","/home/song/NutstoreFiles/*","/home/song/Videos/*","/homg/song/Nutstore\ Files/*","/home/song/Downloads/*","/home/song/Music/*","/home/song/scripts/*"} $1 $2
+		sudo rsync -aAHXv "/home/song/NutstoreFiles/scripts/*" "$2/scripts/"
+}
+### bootloader
+# pacman -S grub efibootmgr
+grubi386() {
+# $1 /mnt/usb $2 /dev/sdb
+grub-install --target=i386-PC --boot-directory=$1/boot --removable $2
+grub-mkconfig -o $1/boot/grub/grub.cfg
+}
+### mountnewsdd
+mountmysdd() {
+		if (( $2[1,4] == ntfs )) {
+		sudo mkdir -p /mnt/$1
+		sudo mount -t $2 /dev/${1}3 /mnt/$1
+		sudo mkdir -p /mnt/$1/boot
+		sudo mount -t $2  /dev/${1}2 /mnt/$1/boot
+		} elif {
+		sudo mkdir -p /mnt/$1
+		sudo mount /dev/${1}3 /mnt/$1
+		sudo mkdir -p /mnt/$1/boot
+		sudo mount /dev/${1}2 /mnt/$1/boot
+		}
+}
+umountmysdd() {
+		sudo umount /dev/${1}3 /mnt/$1
+		sudo umount /dev/${1}2 /mnt/$1/boot
+
+}
+### mountmyudisk
+mountmyudisk() {
+		sudo mount /dev/${1}1 /mnt/$2
+
+}
+mountmyudiskntfs() {
+		sudo mount -tntfs3 /dev/${1}1 /mnt/$2
+
+}
+umountmyudisk() {
+		sudo umount /dev/${1}1 /mnt/$2
+
+}
+### mount disks
+mountcdrom () {
+		[[ -e /mnt/cdrom ]] || mkdir /mnt/cdrom
+	# sudo mount -t iso9660 /dev/sr0 /mnt/cdrom
+	sudo mount /dev/sr0 /mnt/cdrom
+}
+umountcdrom () {
+ sudo eject
+ #sudo umount /mnt/cdrom
+}
+
+cpcdrom() {
+	local taday
+	strftime -s taday "%Y-%m-%d"
+		[[ -e ~/Documents/cdrom ]] || mkdir ~/Documents/cdrom
+		[[ -e ~/Documents/cdrom/$taday ]] || mkdir ~/Documents/cdrom/$taday
+	# sudo mount -t iso9660 /dev/sr0 /mnt/cdrom
+	sudo mount /dev/sr0 /mnt/cdrom
+	sudo rsync -rv --chown=song:song \
+			--chmod=ugo=rwx \
+			/mnt/cdrom/* ~/Documents/cdrom/$taday/
+	sudo umount /mnt/cdrom
+	cd ~/Documents/cdrom/$taday
+	eject
+	unset taday
+}
+mountudisk() {
+	sudo mount -t auto /dev/sdb1 /mnt/udisk
+	cd /mnt/udisk
+}
+
+umountudisk() {
+	sudo umount /mnt/udisk
+}
+
+mountsdx() {
+		if [[ $#* -eq 2 ]] {
+	sudo mount -t auto /dev/$1 /mnt/$2
+}
+}
+
+umountsdx() {
+	sudo umount /dev/$1
+}
+
+mountsdb() {
+		if (($+1)) {
+	sudo mount -t auto /dev/$1 /mnt/$2
+} else {
+	sudo mount -t auto /dev/sdb2 /mnt/usb
+}
+}
+
+umountsdb() {
+	sudo umount /dev/sdb2 
+}
+### burn cd tools
+os-info(){
+cat /etc/issue | cut -d " " -f 1
+}
+getrealpath() {
+			ls -l $1| cut -d '>' -f2
+}
+getrcname() {
+		local ndname
+		## 补足所需参数
+		## eg. -graft-points /home=~/home /Pictures=~/Pictures
+		for dname ($*) {
+				if [[ -h $dname ]] {
+						dname=$(getrealpath $dname) 
+						dname=${dname[2,-1]}
+				 } else {
+				 dname=$dname
+		 }
+				if [[ -d $dname ]] {
+				ndname+="/${dname[(ws:/:)-1]}=$dname "
+		} elif [[ -f $dname ]] {
+				ndname+="$dname " 
+		}
+		}
+	echo $ndname
+}
+## 进入burncd-path
+myphonepath="${HOME}/NutstoreFiles/MyPhone/"
+mynutstorepath="${HOME}/NutstoreFiles/Nutstore/坚果云收藏/"
+fileInFolder() {
+		## 如果文件位于myphonepath，则返回原路径
+		for i ($*) {
+		if [[ $i = ${myphonepath}* ]] || [[ $i = ${mynutstorepath} ]] { echo $i }
+		}
+}
+## 刻录前先压缩
+burncd-zip() {
+	local taday
+	strftime -s taday "%Y-%m-%d"
+	ONAME=/tmp/burncd-zip.iso
+	ZIPNAME=/tmp/burncd.zip
+	if [[ -f $ONAME ]] {
+	## 清除临时文件，以防止出错。	
+	rm -f $ONAME 
+	}
+	if [[ -f $ZIPNAME ]] {
+	## 清除临时文件，以防止出错。	
+	rm -f $ZIPNAME
+	}
+	## 建立tmp/burn 文件夹
+	if [[ -d /tmp/burn ]] {
+	rm -r /tmp/burn
+	} 
+	mkdir -p /tmp/burn
+	## cp 复制文件并压缩
+	cp -r $* /tmp/burn
+	## 将相关文件存档到MyTmp文件夹
+	mytmpPath=${HOME}/NutstoreFiles/Nutstore/MyTmp/$taday
+	if [[ -d $mytmpPath ]] {
+	## 建立临时文件
+		mytmpPath=${mytmpPath}\_
+	}
+	mkdir -p $mytmpPath
+	cp -r $* $mytmpPath
+	## 如果文件位于myphonepath，才可以删除
+	rm -r $(fileInFolder $*)
+	temppath=$(pwd)
+	cd /tmp/burn/
+	### ./ 只压缩根目录的文件 ./* 递归压缩
+	zipa $ZIPNAME ./*
+	# 2-steps
+	## 1-make_iso
+	# -o output-file -v verbose -J fit-windows -r fit-unxi/linux -V Volumn-卷标
+	mkisofs -o $ONAME -v -V Data -J -r $ZIPNAME
+	## 2-burn-iso
+	cdrecord -v dev=/dev/sr0 -eject $ONAME
+	cd $temppath
+}
+
+## 国产机zip版本过低，使用tar
+burncd-tar() {
+	local taday
+	strftime -s taday "%Y-%m-%d"
+	ONAME=/tmp/burncd-zip.iso
+	TarNAME=/tmp/burncd$taday.tar
+	if [[ -f $ONAME ]] {
+	## 清除临时文件，以防止出错。	
+	rm -f $ONAME 
+	}
+	if [[ -f $TarNAME ]] {
+	## 清除临时文件，以防止出错。	
+	rm -f $TarNAME
+	}
+	## 建立tmp/burn 文件夹
+	if [[ -d /tmp/burn ]] {
+	rm -r /tmp/burn
+	} 
+	mkdir -p /tmp/burn
+	## cp 复制文件并压缩
+	cp -r $* /tmp/burn
+	## 将相关文件存档到MyTmp文件夹
+	mytmpPath=${HOME}/NutstoreFiles/Nutstore/MyTmp/$taday
+	if [[ -d $mytmpPath ]] {
+	## 建立临时文件
+		mytmpPath=${mytmpPath}\_
+	}
+	mkdir -p $mytmpPath
+	cp -r $* $mytmpPath
+	## 如果文件位于myphonepath，才可以删除
+	rm -r $(fileInFolder $*)
+	temppath=$(pwd)
+	cd /tmp/burn/
+	### ./ 只压缩根目录的文件 ./* 递归压缩
+	tar cfv  $TarNAME ./*
+	# 2-steps
+	## 1-make_iso
+	# -o output-file -v verbose -J fit-windows -r fit-unxi/linux -V Volumn-卷标
+	mkisofs -o $ONAME -v -V Data -J -r $TarNAME
+	## 2-burn-iso
+	cdrecord -v dev=/dev/sr0 -eject $ONAME
+	cd $temppath
+}
+
+## 直接刻录文件/文件夹
+burncd-raw() {
+		ONAME=/tmp/burncd-raw.iso
+		if [[ ! -d /tmp/burn ]] {
+				mkdir /tmp/burn
+		}
+		if [[ -f $ONAME ]] {
+		## 清除临时文件，以防止出错。	
+		rm -f $ONAME
+		}
+		# 2-steps
+		## 1-make_iso
+		### $ mkisofs -V "BACKUP_2013_07_27" -J -r -o backup_2013_07_27.iso \
+ 		### -graft-points \
+		##   /photos=/home/user/photos \
+		##   /mail=/home/user/mail \
+		##   /photos/holidays=/home/user/holidays/photos
+		## 
+		### 参数说明: -o output-file -v verbose -J fit-windows -r fit-unxi/linux -V Volumn-卷标
+		## -graft-points enables the recognition of pathspecs which consist of a target address in the ISO file system (e.g. /photos) and a source address (e.g. /home/user/photos). Both are separated by a "=" character.
+		mkisofs -o $ONAME  -v -V Data -J -r -graft-points $(getrcname $*)
+
+		## 2-burn-iso
+		cdrecord -v -eject dev=/dev/sr0 $ONAME
+}
+### wallpaper-tools
+
+mv-wallpaper() {
+      #move ~/Downloads BingWallpaper
+      #to ~/Pictures/wallpaper
+    for pictype ( png jpg ){
+
+      if [[  ${#$(find ${HOME}/Downloads/*.$pictype)} -gt 0 ]] {
+		  picnum=${#$(find ${HOME}/Pictures/wallpaper/$1*.$pictype)}
+		  tmpnum=${#$(find ${HOME}/Downloads/*.$pictype)}
+        for i (${HOME}/Downloads/*.jpg) {
+      		  (( picnum++ ))
+      		  mv $i ${HOME}/Pictures/wallpaper/$1${picnum}.$pictype
+			  echo "mv wallpaper.$pictype to"
+        }
+        }	else {
+		    echo "no wallpaper.$pictype in ${HOME}/Downloads/ to Move"
+}		
+	  unset picnum
+	  unset tmpnum
+    }
+}
+
+mv-BingWallpapers() {
+mv-wallpaper BingWallpaper
+}
+
+mv-HyprlandWallpapers() {
+mv-wallpaper wallpaper
+}
+### multi-monitor setup
+multi-monitor() {
+xrandr --output eDP-1 --auto  --right-of HDMI-1 --mode 1920x1080
+}
+2monitor() {
+xrandr --output  HDMI-1 --auto --primary  --right-of  eDP-1 --mode 1920x1080
+}
+1monitor() {
+xrandr --output  HDMI-1 --auto --mode 1920x1080
+}
+
+imonitor() {
+		xrandr --output  eDP-1 --auto --mode 1920x1080
+}
+
+## 10.docker
+get-DoChat() {
+	xhost +
+ 	# curl -sL https://gitee.com/mirrors/dochat/raw/main/dochat.sh | bash
+	sh -c "bash ${HOME}/scripts/docker/dochat.sh"
+}
+run-DoChat() {
+	xhost +
+ 	# curl -sL https://gitee.com/mirrors/dochat/raw/main/dochat.sh | bash
+	cd ${HOME}/scripts/docker
+	# DOCHAT_DPI=96 \
+	DOCHAT_SKIP_PULL=true \
+   	./dochat.sh
+}
+## 11.andriod
+run-scrcpy () {
+scrcpy -SK --shortcut-mod=rctrl
+}
+
+
+# ============
+# ===setopt===
+# ===start====
+
+setopt EXTENDED_GLOB
+setopt no_nomatch
+
+#
+# ============
+# ===setopt===
+# ====end=====
+
+# =============
+# ==autoload===
+# ===start=====
+
+autoload -U zmv
+
+# =============
+# ==autoload===
+# ====end======
+
+
+# =============
+# ====fzf======
+# =============
+# fzf setting
+export FZF_BASE='/usr/bin/fzf'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+DISABLE_FZF_AUTO_COMPLETION="false"
+DISABLE_FZF_KEY_BINDINGS="false"
+# ==import TheCW_fzf.zsh==
+source ~/.config/zsh/fzf.zsh
+
+# ============
+# =====fzf====
+# ====end======
+
+# =============
+# ====zlua=====
+# =============
+export RANGER_ZLUA="${ZIM_HOME}/modules/z.lua/z.lua"
+# use z as cd
+# using j xxx it will first try cd xxx and then z xxx if cd failed
+function j() {
+if [[ "$argv[1]" == "-"* ]]; then
+		z "$@"
+else
+		cd "$@" 2> /dev/null || z "$@"
+fi
+}
+# =============
+# ====zlua=====
+# ====end======
+
+# ============
+# =====perl===
+# ==start=====
+PATH="/home/song/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/song/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/song/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/song/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/song/perl5"; export PERL_MM_OPT;
+# ============
+# =====perl===
+# ====end======
+
+# ============
+# ===ranger===
+# ==start=====
+export RANGER_LOAD_DEFAULT_RC=FALSE
+# ============
+# =====ranger===
+# ====end======
+
+# 10.CUPS printer
+## pacman -S cups,cups-pdf
+mycupss() {
+		sudo systemctl enable cups.service 
+		sudo systemctl start cups.service
+} 
+mycupsr() {
+		sudo systemctl restart cups.service
+} 
+## 11.pandoc convert
+source "$MYSCRIPTS/1-shell/1-markdown/formatmd.sh"
+
+## 12.pdftk pdftools
+initpdftools() {
+sudo pacman -S pdftk
+}
+
+mergepdfs() {
+		pdftk $1 cat output $2
+}
+getpdfpages() {
+		pdftk $1 cat $3 output $2
+}
+
+## 13.quarto
+
+renderqmd() {
+	conda activate $quartoenv
+	quarto render $1
+}
+
+qnvim() {
+	conda activate $quartoenv
+	nvim $1
+}
+
+## 14.fastgithub
+setfastgithub() {
+export proxy="http://127.0.0.1:38457"
+export http_proxy=$proxy
+export https_proxy=$proxy
+export ftp_proxy=$proxy
+export no_proxy="localhost, 127.0.0.1, ::1"
+git config --global http.sslverify false
+sudo ~/Tools/local_file/fastgithub_linux-x64/fastgithub
+}
+
+unsetfastgithub() {
+unset proxy
+unset http_proxy
+unset https_proxy
+unset ftp_proxy
+unset no_proxy
+git config --global http.sslverify true
+}
+
+## 15.ibus
+alias ibusre="ibus restart"
+alias ibusde=" ibus-daemon --xim -d &"
+
+## 16.conda
+
+alias condaup="conda activate $condaenv" 
+alias condadown="conda deactivate" 
+#alias mambaup="source ~/mambaconda3/etc/profile.d/mamba.sh" # archlinux 激活mambaconda3 环境
+alias neomambaup="source ~/miniforge3/etc/profile.d/mamba.sh" # archlinux 激活mambaconda3 环境
+alias nvimup="mamba activate py310 && nvim"
+alias killdwm="pkill -15 Xorg"
+## 17.vim/nvim
+
+setQuartoNvim(){
+cleanNvimln
+[[ -d ~/Tools/local_file/6-nvim/quarto-nvim-kickstarter ]] && ln -s ~/Tools/local_file/6-nvim/quarto-nvim-kickstarter ~/.config/nvim 
+[[ -d ~/.cache/nvim_quarto ]] && ln -s ~/.cache/nvim_quarto ~/.cache/nvim 
+[[ -d ~/.local/share/nvim_quarto ]] && ln -s ~/.local/share/nvim_quarto ~/.local/share/nvim 
+[[ -d ~/.local/state/nvim_quarto ]] && ln -s ~/.local/state/nvim_quarto ~/.local/state/nvim 
+}
+
+setAstroNvim(){
+cleanNvimln
+[[ -d ~/Tools/local_file/6-nvim/nvim-astro ]] && ln -s ~/Tools/local_file/6-nvim/nvim-astro ~/.config/nvim 
+[[ -d ~/.cache/nvim_astro ]] && ln -s ~/.cache/nvim_astro ~/.cache/nvim 
+[[ -d ~/.local/share/nvim_astro ]] && ln -s ~/.local/share/nvim_astro ~/.local/share/nvim 
+[[ -d ~/.local/state/nvim_astro ]] && ln -s ~/.local/state/nvim_astro ~/.local/state/nvim 
+}
+
+cleanNvimln() {
+[[ -h  ~/.cache/nvim       ]] && rm ~/.cache/nvim
+[[ -h  ~/.config/nvim      ]] && rm ~/.config/nvim
+[[ -h  ~/.local/share/nvim ]] && rm ~/.local/share/nvim
+[[ -h  ~/.local/state/nvim ]] && rm ~/.local/state/nvim
+}
+
+renameNvim() {
+		echo  $1 quarto astro 
+cleanNvimln
+[[ -d  ~/.cache/nvim       ]] && mv ~/.cache/nvim ~/.cache/nvim_$1
+[[ -d  ~/.local/share/nvim ]] && mv ~/.local/share/nvim ~/.local/share/nvim_$1
+[[ -d  ~/.local/state/nvim ]] && mv ~/.local/state/nvim ~/.local/state/nvim_$1
+}
+
+rmNvim() {
+		[[ $(whereis trash | cut -d':' -f2 ) ]] || echo "yay -S trashy"
+for nvimpath (~/.cache/nvim ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim){
+[[ -d $nvimpath ]] && trash $nvimpath
+}
+}
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/song/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/song/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/home/song/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/song/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+if [ -f "/home/song/miniforge3/etc/profile.d/mamba.sh" ]; then
+    . "/home/song/miniforge3/etc/profile.d/mamba.sh"
+fi
+# <<< conda initialize <<<
+# 18.Hyprland
+alias chgwallpaper="source ~/.config/ml4w/scripts/auto-reload_hyprpaper.sh"
+
+# 19.Kitty Terminal
+alias icat="kitty +kitten icat"
+
+alias kdiff="kitty +kitten diff"
+
+[ ! -f "$HOME/.x-cmd.root/X" ] || . "$HOME/.x-cmd.root/X" # boot up x-cmd.
+# 20.tools
+alias gdiff="meld"
+
+check_marimo_port_usage() {
+    port=$1
+    # 使用netstat命令检查端口
+    result=$(netstat -tulnp | grep :$port | wc -l )
+    while [[  $result -eq 2 ]] {
+			port=$(( $port + 1))
+    	result=$(netstat -tulnp | grep :$port | wc -l )
+
+}
+		echo $port
+}
+
+marimoup() {
+port=2719
+conda activate py310
+wport=$(check_marimo_port_usage $port)
+## 读取返回变量
+marimo edit $1 --host=localhost --no-token --port=$wport --headless
+
+}
+
+# 21.yazi 
+# like range by rust
+yy(){
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+alias yazi=yy
+# 22.motherduck
+export motherduck_token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvbmd3dXBlaUAxNjMuY29tIiwic2Vzc2lvbiI6InNvbmd3dXBlaS4xNjMuY29tIiwicGF0IjoicThFQTlMUjh4dGNOaDJ5S0ltWE03a0hHODhfeVR3WEd0Y2RMb21nZXBMWSIsInVzZXJJZCI6IjI1N2EwNmY3LTRmODgtNGExZS1hMDk0LWJlZTQzZjVkNjhlYSIsImlzcyI6Im1kX3BhdCIsInJlYWRPbmx5IjpmYWxzZSwiaWF0IjoxNzMxNDg5NjQzfQ.D3tpiWZE_e3wGzcuBlSv9UPnPQzUhbEe1vQxcrje12Y'
+# shellcheck shell=bash
+
+# =============================================================================
+#
+# Utility functions for zoxide.
+#
+
+# pwd based on the value of _ZO_RESOLVE_SYMLINKS.
+function __zoxide_pwd() {
+    \builtin pwd -L
+}
+
+# cd + custom logic based on the value of _ZO_ECHO.
+function __zoxide_cd() {
+    # shellcheck disable=SC2164
+    \builtin cd -- "$@"
+}
+
+# =============================================================================
+#
+# Hook configuration for zoxide.
+#
+
+# Hook to add new entries to the database.
+function __zoxide_hook() {
+    # shellcheck disable=SC2312
+    \command zoxide add -- "$(__zoxide_pwd)"
+}
+
+# Initialize hook.
+# shellcheck disable=SC2154
+if [[ ${precmd_functions[(Ie)__zoxide_hook]:-} -eq 0 ]] && [[ ${chpwd_functions[(Ie)__zoxide_hook]:-} -eq 0 ]]; then
+    chpwd_functions+=(__zoxide_hook)
+fi
+
+# =============================================================================
+#
+# When using zoxide with --no-cmd, alias these internal functions as desired.
+#
+
+# Jump to a directory using only keywords.
+function __zoxide_z() {
+    # shellcheck disable=SC2199
+    if [[ "$#" -eq 0 ]]; then
+        __zoxide_cd ~
+    elif [[ "$#" -eq 1 ]] && { [[ -d "$1" ]] || [[ "$1" = '-' ]] || [[ "$1" =~ ^[-+][0-9]$ ]]; }; then
+        __zoxide_cd "$1"
+    elif [[ "$#" -eq 2 ]] && [[ "$1" = "--" ]]; then
+        __zoxide_cd "$2"
+    else
+        \builtin local result
+        # shellcheck disable=SC2312
+        result="$(\command zoxide query --exclude "$(__zoxide_pwd)" -- "$@")" && __zoxide_cd "${result}"
+    fi
+}
+
+# Jump to a directory using interactive search.
+function __zoxide_zi() {
+    \builtin local result
+    result="$(\command zoxide query --interactive -- "$@")" && __zoxide_cd "${result}"
+}
+
+# =============================================================================
+#
+# Commands for zoxide. Disable these using --no-cmd.
+#
+
+function z() {
+    __zoxide_z "$@"
+}
+
+function zi() {
+    __zoxide_zi "$@"
+}
+
+# Completions.
+if [[ -o zle ]]; then
+    __zoxide_result=''
+
+    function __zoxide_z_complete() {
+        # Only show completions when the cursor is at the end of the line.
+        # shellcheck disable=SC2154
+        [[ "${#words[@]}" -eq "${CURRENT}" ]] || return 0
+
+        if [[ "${#words[@]}" -eq 2 ]]; then
+            # Show completions for local directories.
+            _cd -/
+
+        elif [[ "${words[-1]}" == '' ]]; then
+            # Show completions for Space-Tab.
+            # shellcheck disable=SC2086
+            __zoxide_result="$(\command zoxide query --exclude "$(__zoxide_pwd || \builtin true)" --interactive -- ${words[2,-1]})" || __zoxide_result=''
+
+            # Set a result to ensure completion doesn't re-run
+            compadd -Q ""
+
+            # Bind '\e[0n' to helper function.
+            \builtin bindkey '\e[0n' '__zoxide_z_complete_helper'
+            # Sends query device status code, which results in a '\e[0n' being sent to console input.
+            \builtin printf '\e[5n'
+
+            # Report that the completion was successful, so that we don't fall back
+            # to another completion function.
+            return 0
+        fi
+    }
+
+    function __zoxide_z_complete_helper() {
+        if [[ -n "${__zoxide_result}" ]]; then
+            # shellcheck disable=SC2034,SC2296
+            BUFFER="z ${(q-)__zoxide_result}"
+            __zoxide_result=''
+            \builtin zle reset-prompt
+            \builtin zle accept-line
+        else
+            \builtin zle reset-prompt
+        fi
+    }
+    \builtin zle -N __zoxide_z_complete_helper
+
+    [[ "${+functions[compdef]}" -ne 0 ]] && \compdef __zoxide_z_complete z
+fi
+
+# =============================================================================
+#
+# To initialize zoxide, add this to your configuration (usually ~/.zshrc):
+#
+# eval "$(zoxide init zsh)"
+
+## 22.TinyTex Lyx
+export PATH="$HOME/song/.TinyTeX/bin/x86_64-linux/:$PATH"
+
+export PATH="/usr/share/lyx/layouts/:$PATH"
+alias pdflatex="$HOME/song/.TinyTeX/bin/x86_64-linux/pdflatex"

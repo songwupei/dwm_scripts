@@ -40,6 +40,7 @@ formatmds() {
 }
 
 formatmd() {
+	dir_path=${1:h}
 	hanznum=一二三四五六七八九十
 	(($+2)) && {
 	case $2 {
@@ -50,10 +51,18 @@ formatmd() {
 	(inline)
 		# replacehznum 解决sed 的贪婪模式， [^str]可以截断
 		tmpmd=${1:r}_tmp.${1:e}
-
 		replacehznum $1 > ${tmpmd}
 	        sed -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /' -e 's/\(（\([一二三四五六七八九十]\)）\)/### \1/' -e 's/\(^附件1\)/\n\n<br>\n\n\1/' ${tmpmd} > "${1:r}_format.${1:e}"
 		rm ${tmpmd}
+		;;
+		(yuebao)
+		tmpmd=${1:r}_tmp.${1:e}
+		replacehznum $1 > ${tmpmd}
+		## basic add remove 1 line bold
+		sed -i '/./,$!d' ${tmpmd}
+		sed -e 's/^\*\*\([0-9]\+\..*\)\*\*$/\1/' -e 's/\*\*\([0-9]\+\..*\)\*\*/\1/g' -e 's/\*\*\([^ ].*[^ ]\)\*\*/\1/g' -e 's/\([一二三四五六七八九十]、\)/## \1/' -e '1s/^/# /'  -e 's/\(（\([一二三四五六七八九]\)）\)/### \1/' -e 's/\(^附件1\)/\n\n<br>\n\n\1/'   ${tmpmd} > "${1:r}.${1:e}"
+
+  	rm ${tmpmd}
 		;;
 		(zhidu)
 		sed -e 's/\(第[一二三四五六七八九十]\{1,3\}章\)/## \\indent \1/' -e '1s/^/# /' -e '2s/^/\n\n<br>\n\n/' -e 's/\(第[一二三四五六七八九十]\{1,3\}条\)/　　\*\*\1\*\*/'  $1 > "${1:r}_format.${1:e}"
@@ -68,37 +77,76 @@ formatmd() {
 		;;
 	}
 }
-echo 'format $1 ;then convert to docx'
-	echo "format $1 to ${1:r}_format.${1:e}"
+	echo 'format $1 ;then convert to docx'
+	echo "format $1 to ${1:r}_f<D-s>rmat.${1:e}"
 }
-
 replacehznum() {
-	# 删除tmp文件夹
-	formatmdTemp="/tmp/formatmdTemp"
-	formatmdCmd="$formatmdTemp/formatmdCmd"
+    # 删除临时文件夹
+    formatmdTemp="/tmp/formatmdTemp"
+    formatmdCmd="$formatmdTemp/formatmdCmd"
 
-	[[ -e $formatmdTemp ]] && rm -rf $formatmdTemp 
-        mkdir $formatmdTemp
-	# nl -ba ==include blank lines
-	nl -ba $1 | grep （[一二三四五六七八九]）| cut -f 1 | tr -d '\n' > $formatmdTemp/linesnumber
-	# nls=$(nl $1 | grep （[一二三四]）| cut -f 1 | tr -d '\n')
-nls=($(cat $formatmdTemp/linesnumber))
-txt=$(cat $1)
-hanznum="一二三四五六七八九十"
-printf "sed " > $formatmdCmd
-for lnum ($nls) { 
-hzindex=${nls[(ie)$lnum]}
-## case1:1-only format Heading3 （一）xx。regex not greed :use [^str] 
-## case1:2-replace (一) (三) to(一) (二) 
-### printf " -e '%s s/（[一二三四五六七八九]）\([^。]*。\)/（%s）\\%s/' %s" ${lnum} ${hanznum[$hzindex]} 1  >> $formatmdCmd
-## case2:case1 + second format NormalCharacter<span>***</span>
-printf " -e '%s s/（[一二三四五六七八九]）\([^。]*。\)\(.*。\)/（%s）\\%s<span custom-style="NormalCharacter">\\%s<\/span>/' %s" ${lnum} ${hanznum[$hzindex]} 1 2  >> $formatmdCmd
+    [[ -e $formatmdTemp ]] && rm -rf $formatmdTemp
+    mkdir -p $formatmdTemp
+
+    # 查找包含中文数字括号的行号
+    nl -ba "$1" | grep '（[一二三四五六七八九]）' | cut -f 1 | tr -d '\n' > "$formatmdTemp/linesnumber"
+
+    # 读取行号到数组
+    nls=($(cat "$formatmdTemp/linesnumber"))
+    #echo "Line numbers: ${nls[@]}"
+
+    # 定义中文数字
+    hanznum=("一" "二" "三" "四" "五" "六" "七" "八" "九" "十")
+
+    # 生成 sed 命令
+    printf "sed " > "$formatmdCmd"
+    for lnum in "${nls[@]}"; do
+        # 计算中文数字索引
+        hzindex=$(( ${nls[(ie)$lnum]} ))
+        if [[ $hzindex -ge 0 && $hzindex -lt ${#hanznum[@]} ]]; then
+            # 生成 sed 替换命令
+            printf " -e '%s s/（[一二三四五六七八九]）/（%s）/' " "$lnum" "${hanznum[$hzindex]}" >> "$formatmdCmd"
+        else
+            #echo "Error: Invalid index for hanznum: $hzindex"
+        fi
+    done
+    printf "%s" "$1" >> "$formatmdCmd"
+
+    # 打印生成的 sed 命令（调试用）
+    # echo "Generated sed command:"
+    #cat "$formatmdCmd"
+
+    # 执行 sed 命令
+    zsh "$formatmdCmd"
 }
-printf "%s" $1 >> $formatmdCmd
-zsh $formatmdCmd 
 
-}
-
+##replacehznum() {
+##	# 删除tmp文件夹
+##	formatmdTemp="/tmp/formatmdTemp"
+##	formatmdCmd="$formatmdTemp/formatmdCmd"
+##	[[ -e $formatmdTemp ]] && rm -rf $formatmdTemp 
+##        mkdir $formatmdTemp
+##	# nl -ba ==include blank lines
+##	nl -ba $1 | grep （[一二三四五六七八九]）| cut -f 1 | tr -d '\n' > $formatmdTemp/linesnumber
+##	# nls=$(nl $1 | grep （[一二三四]）| cut -f 1 | tr -d '\n')
+##nls=($(cat $formatmdTemp/linesnumber))
+##txt=$(cat $1)
+##hanznum="一二三四五六七八九十"
+##printf "sed " > $formatmdCmd
+##for lnum ($nls) { 
+##hzindex=${nls[(ie)$lnum]}
+#### case1:1-only format Heading3 （一）xx。regex not greed :use [^str] 
+##printf " -e '%s s/（[一二三四五六七八九]）/（%s）/' %s" ${lnum} ${hanznum[$hzindex]} 1  >> $formatmdCmd
+#### case1:2-replace (一) (三) to(一) (二) 
+####printf " -e '%s s/（[一二三四五六七八九]）\([^。]*。\)/（%s）\\%s/' %s" ${lnum} ${hanznum[$hzindex]} 1  >> $formatmdCmd
+#### case2:case1 + second format NormalCharacter<span>***</span>
+#### printf " -e '%s s/（[一二三四五六七八九]）\([^。]*。\)\(.*。\)/（%s）\\%s<span custom-style="NormalCharacter">\\%s<\/span>/' %s" ${lnum} ${hanznum[$hzindex]} 1 2  >> $formatmdCmd
+##}
+##printf "%s" $1 >> $formatmdCmd
+##zsh $formatmdCmd 
+##
+##}
+##
 mdtopdf() {
 	echo "convert md to pdf"
 fname=$1
